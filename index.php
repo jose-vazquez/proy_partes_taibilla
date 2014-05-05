@@ -4,7 +4,7 @@
 	Este es el index de mi website.
 */
 
-require_once "includes/controladores/c_sesion.php";
+
 require_once "includes/main.php";
 require_once('FirePHPCore/FirePHP.class.php');
 
@@ -17,8 +17,8 @@ try {
 
 	//Si introduce nombre y pass ...
 	if($p && $n){
-		$c = new Usuario($p,$n);
-		$firephp->log("Usuario ...$p - $n");
+		$c = new Usuario($n,$p);
+		//$firephp->log("Usuario ...$p - $n");
 		$usuario = $c->find();
 		
 		//si no existe el usuario enviar mensaje ...

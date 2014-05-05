@@ -1,6 +1,6 @@
 <?php
 
-//require_once('m_conexion.php');
+require_once('m_conexion.php');
 
 class Usuario{
 	
@@ -20,21 +20,30 @@ class Usuario{
 		$this->pass = $p;
 		$this->dbh = new Conexion($this->dbname);
 		$firephp = FirePHP::getInstance(true);
+		$firephp->log($this->dbh->listDBs());
+
+		//$firephp->log($this->conn->getConnections());
 		$firephp->log("initdb");
 		}
 	
 	//Si existe el usuario, devolver sus datos. 
 	public function find(){
 		$firephp = FirePHP::getInstance(true);
-		//$this->initdb();
-		$qry =  array( 'nombre' => $this->pass,'password' => $this->usu);
+		$qry =  array( 'nombre' => $this->usu,'password' => $this->pass);
 		$firephp->log($qry);
 		$db = $this->dbh;
 		$firephp->log($db);
-		$st = $db->cPersonal->findOne($qry);
-		$firephp->log($st);
+		$firephp->log("find()");
+//		$cursor = $db->cPersonal->find($qry);
+//		$cursor = $this->dbh->cPersonal->find($qry);
+		$col = new MongoCollection($this->dbh,'cPersonal');
+		$firephp->log($col);
+		$cursor = $col->findOne($qry);
+		foreach($cursor as $d){
+			$firephp->log($d);
+		}
 		//devuelvo el array
-		return $st;
+		return $cursor;
 	}
 	
 
